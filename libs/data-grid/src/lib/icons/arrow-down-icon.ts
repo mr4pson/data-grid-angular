@@ -1,0 +1,12 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'pe-data-grid-arrow-down-icon',
+  template: `
+    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5">
+      <path fill="none" stroke="#ADADAD" d="M9 0L4.5 4.667 4.5 4.667 0 0" transform="matrix(-1 0 0 1 10 0)"/>
+    </svg>
+  `,
+})
+export class PeDataGridArrowDownIconComponent {
+}

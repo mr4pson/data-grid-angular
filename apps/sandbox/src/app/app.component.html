@@ -1,0 +1,277 @@
+<!-- <pe-header-info></pe-header-info> -->
+<div>
+  <button class="toggle-btn" (click)="onToggleSidebar()">Toggle sidebar</button>
+</div>
+<div class="data-grid-wrap">
+  <pe-sidebar>
+    <pe-sidebar-filters-wrapper>
+      <pe-sidebar-header title="Sandbox" (closeSidebar)="showSidebar = false"></pe-sidebar-header>
+
+      <pe-sidebar-filter-wrapper
+        [title]="treeLabel"
+        [expandable]="true"
+        [editable]="true"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="treeLabel = $event"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="treeData"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+          (nestedTreeControl)="onCreateTreeControl($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+
+      <pe-sidebar-filter-wrapper>
+        <pe-toggle-sidebar-filter
+          [label]="toggleLabel"
+          [editable]="true"
+          (labelChangeOn)="toggleLabel = $event"
+          [formControl]="formGroup.get('toggle')"
+        >
+          <ng-template #iconTemplate>
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-toggle-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+
+
+      <pe-sidebar-filter-wrapper
+        *ngFor="let category of categories"
+        [title]="category.title"
+        [expandable]="true"
+        [editable]="true"
+        [editMode]="category.editMode"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="onBranchCreated($event, category)"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="category.tree"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+    </pe-sidebar-filters-wrapper>
+
+    <pe-sidebar-filters-wrapper>
+      <pe-sidebar-header title="Subscriptions" (closeSidebar)="showSidebar = false"></pe-sidebar-header>
+
+      <pe-sidebar-filter-wrapper
+        [title]="treeLabel"
+        [expandable]="true"
+        [editable]="true"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="treeLabel = $event"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="treeData2"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+          (nestedTreeControl)="onCreateTreeControl($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+
+      <pe-sidebar-filter-wrapper
+        *ngFor="let category of categories"
+        [title]="category.title"
+        [expandable]="true"
+        [editable]="true"
+        [editMode]="category.editMode"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="onBranchCreated($event, category)"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="category.tree"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+    </pe-sidebar-filters-wrapper>
+
+    <pe-sidebar-footer-wrapper>
+      <pe-menu-sidebar-footer [menuData]="sidebarFooterData"></pe-menu-sidebar-footer>
+    </pe-sidebar-footer-wrapper>
+  </pe-sidebar>
+  <pe-data-grid
+    #dataGridComponent
+    [filters]="filters"
+    [items]="items"
+    [activeItemId]="activeItemId"
+    [multipleSelectedActions]="multipleSelectedActions"
+    [singleSelectedAction]="singleSelectedAction"
+    [secondSingleSelectedAction]="secondSingleSelectedAction"
+    [isShowGridItemInfo]="true"
+    [dataListOptions]="gridOptions"
+    [displayFilters]="false"
+    [displayNavbar]="true"
+    [showSidebar]="true"
+    [isShowRightPaneButton]="true"
+    [rightPaneButtons]="rightPaneButtons"
+    [isFilterCreating]="isFilterCreating"
+    [enableDragAndDrop]="true"
+    [creatingFilterParentName]="'Albums'"
+    (searchChanged)="onSearchChanged($event)"
+    (createFilter)="onFilterCreate($event)"
+  >
+    <pe-sidebar-filters-wrapper>
+      <pe-sidebar-header title="Sandbox" (closeSidebar)="showSidebar = false"></pe-sidebar-header>
+
+      <pe-sidebar-filter-wrapper
+        [title]="treeLabel"
+        [expandable]="true"
+        [editable]="true"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="treeLabel = $event"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="treeData"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+          (nestedTreeControl)="onCreateTreeControl($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+
+      <pe-sidebar-filter-wrapper>
+        <pe-toggle-sidebar-filter
+          [label]="toggleLabel"
+          [editable]="true"
+          (labelChangeOn)="toggleLabel = $event"
+          [formControl]="formGroup.get('toggle')"
+        >
+          <ng-template #iconTemplate>
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-toggle-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+
+
+      <pe-sidebar-filter-wrapper
+        *ngFor="let category of categories"
+        [title]="category.title"
+        [expandable]="true"
+        [editable]="true"
+        [editMode]="category.editMode"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="onBranchCreated($event, category)"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="category.tree"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+    </pe-sidebar-filters-wrapper>
+
+    <pe-sidebar-filters-wrapper>
+      <pe-sidebar-header title="Subscriptions" (closeSidebar)="showSidebar = false"></pe-sidebar-header>
+
+      <pe-sidebar-filter-wrapper
+        [title]="treeLabel"
+        [expandable]="true"
+        [editable]="true"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="treeLabel = $event"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="treeData2"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+          (nestedTreeControl)="onCreateTreeControl($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+
+      <pe-sidebar-filter-wrapper
+        *ngFor="let category of categories"
+        [title]="category.title"
+        [expandable]="true"
+        [editable]="true"
+        [editMode]="category.editMode"
+        [active]="treeHeaderActive"
+        (changeTitleOn)="onBranchCreated($event, category)"
+        (headerClick)="onAlbumsClick()"
+      >
+        <pe-tree-sidebar-filter
+          [tree]="category.tree"
+          [multiple]="true"
+          [formControl]="formGroup.get('tree')"
+          [refresh]="refresh$"
+          (renameNode)="onRenameNode($event)"
+          (createNode)="onCreateNode($event)"
+          (dragAndDropChange)="onDragAndDropChange($event)"
+        >
+          <ng-template #nodeImageTemplate let-node="node">
+            <pe-data-grid-node-icon></pe-data-grid-node-icon>
+          </ng-template>
+        </pe-tree-sidebar-filter>
+      </pe-sidebar-filter-wrapper>
+    </pe-sidebar-filters-wrapper>
+    
+
+    <pe-sidebar-footer-wrapper>
+      <pe-menu-sidebar-footer [menuData]="sidebarFooterData"></pe-menu-sidebar-footer>
+    </pe-sidebar-footer-wrapper>
+  </pe-data-grid>
+</div>

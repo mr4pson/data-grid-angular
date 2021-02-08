@@ -1,0 +1,197 @@
+.pe-data-grid-mat-menu + * .cdk-overlay-pane > div.mat-menu-panel {
+  background-color: transparent;
+  border-radius: 8px;
+  margin-top: 5.5px;
+  margin-bottom: 5.5px;
+  backdrop-filter: blur(50px);
+}
+
+.pe-data-grid-mat-menu + * .cdk-overlay-pane > div.mat-menu-panel > .mat-menu-content{
+  background: transparent;
+}
+
+.filter__search-input {
+  .mat-form-field-wrapper {
+    padding-bottom: inherit !important;
+  }
+}
+
+.filter__menu-backdrop + * .cdk-overlay-pane,
+.filter__condition-menu-backdrop + * .cdk-overlay-pane {
+  width: 100%;
+  max-width: calc(336px - 36px);
+
+  @media (max-width: 750px) {
+    max-width: 100%;
+    margin-left: 9px;
+  }
+
+  .mat-menu-panel {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 0 0 8px 8px;
+    background-color: rgba(0,0,0,.85);
+    margin-top:0px;
+
+    .mat-menu-content {
+      padding: 0;
+      backdrop-filter: blur(27px);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .filter__condition-menu {
+    backdrop-filter: blur(27px);
+    background-color: transparent;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 0 0 12px 12px;
+    margin-left: 0;
+    margin-top: 0;
+    min-width: calc(100% - 36px);
+  }
+}
+
+.filter__mat-calendar {
+  .mat-calendar-body-cell-content {
+    color: #ffffff;
+
+    &.selected {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+    }
+  }
+
+  td {
+    color: #ffffff;
+    font-size: 14px;
+  }
+
+  .mat-calendar-table-header .mat-calendar-table-header-divider:after {
+    background-color: rgb(173, 173, 173);
+  }
+}
+
+.mat-form-field-underline {
+  display: none;
+}
+
+.md-drppicker {
+  width: 100% !important;
+  max-width: calc(336px - 36px);
+  margin-top: 0 !important;
+  padding: 0 !important;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: unset !important;
+
+  .month {
+    text-transform: uppercase;
+  }
+
+  .calendar {
+    width: 100%;
+    margin: unset !important;
+  }
+
+  .calendar td,
+  .calendar th {
+    padding: 3px !important;
+  }
+
+  td {
+    &.in-range,
+    &.active {
+      &:not(.off) {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    &.end-date {
+      border-top-right-radius: 6px !important;
+      border-bottom-right-radius: 6px !important;
+    }
+
+    &.start-date {
+      border-top-left-radius: 6px !important;
+      border-bottom-left-radius: 6px !important;
+    }
+
+    &.disabled {
+      text-decoration: unset !important;
+    }
+  }
+
+  .calendar-table {
+    padding: 0 !important;
+    border: unset !important;
+
+    table {
+      border-collapse: collapse !important;
+
+      thead {
+        tr {
+          border-bottom: 1px solid rgb(173, 173, 173);
+        }
+      }
+    }
+  }
+
+  .ranges {
+    display: none;
+  }
+}
+// Issue: https://github.com/MurhafSousli/ngx-scrollbar/issues/260
+.ng-scroll-viewport {
+  display: flex;
+  flex-direction: column;
+  width: 100%; // fix for safari, sometimes viewport width is more than screen size
+}
+.ng-scroll-content {
+  flex: 1;
+}
+
+.mat-form-field-appearance-fill.filter__search-input {
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  .mat-form-field-flex {
+    padding: 0;
+
+    ::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+  .mat-form-field-infix {
+    padding-top: 0;
+  }
+}
+
+// TODO: remove after ngx-daterangepicker-material will be replaced with mat-calendar
+.filter__calendar .md-drppicker .calendar td,
+.filter__calendar .md-drppicker .calendar th {
+  min-width: 20px;
+}
+
+.pe-bootstrap .mat-menu-content {
+  background-color: transparent !important;
+}
+
+.pe-bootstrap .mat-menu-panel {
+  -webkit-backdrop-filter: blur(27px);
+  backdrop-filter: blur(27px);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-menu {
+  &__overlay {
+    width: 356px;
+    max-width: inherit !important;
+    background-color: inherit;
+    border-radius: 0!important;
+
+    .mat-menu-content {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+  }
+}

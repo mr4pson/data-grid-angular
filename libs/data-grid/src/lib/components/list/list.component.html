@@ -1,0 +1,132 @@
+<div *ngIf="options" class="data-list-header">
+  <div *ngIf="selectable"
+       class="item__checkbox checkbox list-header-checkbox"
+       [class.checkbox--checked]="allItemsSelected$ | async"
+       (click)="onBulkToggle()">
+    <span class="checkbox__mark">
+      <div class="checkbox__mark-stem"></div>
+      <div class="checkbox__mark-kick"></div>
+    </span>
+  </div>
+  <div class="data-list-header__title"
+       [style.min-width]="getNameMinWidth(columnsSizes?.title)">
+    <span #titleElem>{{ options.nameTitle }}</span>
+  </div>
+  <div
+    class="data-list-header__description"
+    *ngIf="options.descriptionTitle"
+    [style.min-width]="getWidth(columnsSizes?.description)"
+  >
+    <span #descriptionElem>{{ options.descriptionTitle }}</span>
+  </div>
+  <div *ngIf="options.customField1Title" class="data-list-header__custom-field">
+    {{ options.customField1Title }}
+  </div>
+  <div *ngIf="options.customField2Title" class="data-list-header__custom-field">
+    {{ options.customField2Title }}
+  </div>
+  <div *ngIf="options.customField3Title" class="data-list-header__custom-field">
+    {{ options.customField3Title }}
+  </div>
+  <ng-container *ngIf="options?.customFieldsTitles">
+    <ng-container *ngFor="let title of options.customFieldsTitles; let index = index">
+      <div *ngIf="!!title" [style.min-width]="getMinWidthCustomAt(index)" class="data-list-header__custom-field">
+        <span [innerHTML]="title" [attr.customfieldindex]="index" #customFieldElem></span>
+      </div>
+    </ng-container>
+  </ng-container>
+  <div *ngIf="options?.conditionTitle !== undefined" class="data-list-header__condition">
+    {{ options.conditionTitle }}
+  </div>
+</div>
+<ng-scrollbar track="vertical">
+  <div 
+    cdkDropList
+    cdkDropListSortingDisabled 
+    [cdkDropListConnectedTo]="getMultipleDropListConnections()" 
+    class="data-list-items-container items-list"
+  >
+    <!-- Pass some 'Loading' or other 'fake' item here -->
+    <ng-content select="[listSlot]"></ng-content>
+
+    <div
+      *ngFor="let item of items; trackBy: trackItem"
+      class="item"
+      [class.item--clickable]="clickable"
+      (click)="itemClicked.emit(item)"
+      [cdkDragData]="getSelectedItems(item)"
+      [cdkDragDisabled]="!enableDragAndDrop"
+      cdkDrag 
+    >
+      <div
+        *ngIf="selectable"
+        class="item__checkbox checkbox list-item-checkbox"
+        [class.checkbox--checked]="item?.selected"
+        (click)="onToggle(item)"
+      >
+        <span class="checkbox__mark">
+          <div class="checkbox__mark-stem"></div>
+          <div class="checkbox__mark-kick"></div>
+        </span>
+      </div>
+      <div *ngIf="hasItemsAtLeastOneField('image') && !item?.snapshot" class="item__image" [style.backgroundImage]="'url(' + item?.image + ')'"></div>
+      <div *ngIf="item?.snapshot as snap" class="item__image">
+        <peb-renderer
+          [element]="snap.template"
+          [stylesheet]="snap.stylesheet"
+          [context]="snap.context"
+          [options.screen]="snap.screen"
+          [options.scale]="0.05"
+          [options.locale]="'en'"
+          [options.interactions]="true"
+        ></peb-renderer>
+      </div>
+      <div
+        class="item__title"
+        [style.max-width]="isMobile ? getWidth(columnsSizes?.title): null"
+        [style.min-width]="getWidth(columnsSizes?.title)">
+        <span [innerHTML]="item?.title" #titleElem></span>
+      </div>
+      <div
+        class="item__description"
+        *ngIf="hasItemsAtLeastOneField('description')"
+        [style.min-width]="getWidth(columnsSizes?.description)"
+      >
+        <span [innerHTML]="item?.description" #descriptionElem></span>
+      </div>
+      <ng-container *ngIf="options">
+        <div *ngIf="options.customField1Title" class="item__custom-field">{{ item?.customField1 }}</div>
+        <div *ngIf="options.customField2Title" class="item__custom-field">{{ item?.customField2 }}</div>
+        <div *ngIf="options.customField3Title" class="item__custom-field">{{ item?.customField3 }}</div>
+      </ng-container>
+      <ng-container *ngIf="options?.customFieldsTitles">
+        <ng-container *ngFor="let title of options.customFieldsTitles; let index = index">
+          <div class="item__custom-field" [style.min-width]="getMinWidthCustomAt(index)">
+            <span [innerHTML]="(item?.customFields)[index]" [attr.customfieldindex]="index" #customFieldElem></span>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div *ngIf="options?.conditionTitle !== undefined" class="item__condition">
+        {{ item?.id === activeItemId ? ('status.installed' | translate) : ('status.not_installed' | translate) }}
+      </div>
+      <div #actionsFieldElem class="item__buttons">
+        <button class="item__button"
+                [class.item__button-loading]="action && (action.isLoading$ | async)"
+                *ngFor="let action of (item?.actions?.length ? item.actions : actions)"
+                (click)="onAction($event, item, action)">
+          <mat-spinner class="item__button-spinner mat-spinner-themed" [strokeWidth]="2" [diameter]="18"></mat-spinner>
+          <span class="item__button-content">{{ action?.shortLabel && isMobile ? action?.shortLabel : action?.label }}</span>
+        </button>
+      </div>
+      <div class="drag-custom-placeholder" *cdkDragPlaceholder></div>
+      <div class="drag-preview" *cdkDragPreview>
+        <div *ngIf="getSelectedItems(item) as dragItems">
+          <div class="drag-preview__title">
+            <pe-data-grid-image-icon></pe-data-grid-image-icon>
+            <span>{{ dragItems.length === 1 ? dragItems.length + ' item' : dragItems.length + ' items' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-scrollbar>

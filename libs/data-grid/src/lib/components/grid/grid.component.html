@@ -1,0 +1,40 @@
+<ng-scrollbar>
+  <div class="data-grid-items-container">
+    <!-- Pass some 'Loading' or other 'fake' item here -->
+    <ng-content select="[gridSlot]"></ng-content>
+
+    <div *ngFor="let item of items; trackBy: trackDataGridItem" class="item">
+      <div (click)="onToggle(item.id)" class="item__body">
+        <div *ngIf="multipleSelectedActions" class="item__checkbox checkbox" [class.checkbox--checked]="isSelected(item.id)">
+          <span class="checkbox__mark">
+            <div class="checkbox__mark-stem"></div>
+            <div class="checkbox__mark-kick"></div>
+          </span>
+        </div>
+        <div *ngIf="item.id === activeItemId" class="item__installed-mark">{{'status.installed' | translate}}</div>
+        <div class="item__image" [style.backgroundImage]="'url(' + item.image + ')'"></div>
+        <div *ngIf="isShowGridItemInfo" class="item__info">
+          <div class="item__title" *ngIf="item?.title">{{ item?.title }}</div>
+          <div class="item__subtitle" *ngIf="item?.subtitle">{{ item?.subtitle }}</div>
+          <div class="item__description" *ngIf="item?.description">{{ item?.description }}</div>
+        </div>
+      </div>
+      <div class="item__buttons">
+        <div
+          *ngIf="singleSelectedAction"
+          class="item__button"
+          (click)="singleSelectedAction.callback(item.id); $event.stopPropagation(); $event.preventDefault()"
+        >
+          {{ singleSelectedAction.label }}
+        </div>
+        <div
+          *ngIf="secondSingleSelectedAction"
+          class="item__button"
+          (click)="secondSingleSelectedAction.callback(item.id); $event.stopPropagation(); $event.preventDefault()"
+        >
+          {{ secondSingleSelectedAction.label }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-scrollbar>

@@ -1,0 +1,162 @@
+<pe-data-grid-material-styles></pe-data-grid-material-styles>
+
+<div class="grid-content" [@.disabled]="!initAnimation">
+  <ng-container *ngIf="(showFilters$ | async) && showSidebar">
+    <div
+      class="sidebar-wrap"
+      [@sidebarAnimation]="{value: !showSidebar || gridAnimationState$ | async, params: { sidebarWidth: sidebarFilters.toArray().length > 1 ? 632 : 319 }}"
+    >
+      <pe-sidebar
+        *ngIf="!isMobile"
+        [ngClass]="hasPlatformHeader ? 'hasPlatformHeader' : ''"
+        [sidebarFilters]="sidebarFilters.first"
+        [sidebarFooter]="sidebarFooter"
+        [filters]="filters"
+        [additionalFilter]="additionalFilter"
+        [filterConditions]="filterConditions"
+        [isFilterCreating]="isFilterCreating"
+        [creatingFilterParentName]="creatingFilterParentName"
+        (selectFilters)="onSelectFilters($event)"
+        (resetFilters)="onResetFilters()"
+        (toggleFilters)="onToggleFilters()"
+        (applyFilters)="onApplyFilters($event)"
+        (createFilter)="onCreateFilter($event)"
+      >
+      </pe-sidebar>
+      <pe-sidebar
+        *ngIf="!isMobile && sidebarFilters.toArray().length > 1"
+        [ngClass]="hasPlatformHeader ? 'hasPlatformHeader' : ''"
+        [@sidebarAnimation]="{value: !showSidebar || gridAnimationState$ | async, params: { sidebarWidth: sidebarFilters.toArray().length > 1 ? 632 : 319 }}"
+        [sidebarFilters]="sidebarFilters.last"
+        [sidebarFooter]="sidebarFooter"
+        [filters]="filters"
+        [additionalFilter]="additionalFilter"
+        [filterConditions]="filterConditions"
+        [isFilterCreating]="isFilterCreating"
+        [creatingFilterParentName]="creatingFilterParentName"
+        (selectFilters)="onSelectFilters($event)"
+        (resetFilters)="onResetFilters()"
+        (toggleFilters)="onToggleFilters()"
+        (applyFilters)="onApplyFilters($event)"
+        (createFilter)="onCreateFilter($event)"
+      >
+      </pe-sidebar>
+    </div>
+
+    <pe-sidebar
+      *ngIf="isMobile"
+      [ngClass]="hasPlatformHeader ? 'hasPlatformHeader' : ''"
+      [@mobileSidebarAnimation]
+      [sidebarFilters]="sidebarFilters"
+      [sidebarFooter]="sidebarFooter"
+      [filters]="filters"
+      [additionalFilter]="additionalFilter"
+      [filterConditions]="filterConditions"
+      [isFilterCreating]="isFilterCreating"
+      [creatingFilterParentName]="creatingFilterParentName"
+      (selectFilters)="onSelectFilters($event)"
+      (resetFilters)="onResetFilters()"
+      (toggleFilters)="onToggleFilters()"
+      (chooseFilters)="chooseFilters.emit()"
+      (applyFilters)="onApplyFilters($event)"
+      (createFilter)="onCreateFilter($event)"
+    >
+    </pe-sidebar>
+  </ng-container>
+
+  <div
+    *ngIf="{
+      animationState: !showSidebar || gridAnimationState$ | async,
+      animationProgress: gridAnimationProgress$ | async
+    } as animation"
+    class="grid-content__right"
+    [@gridAnimation]="{value: animation.animationState, params: { sidebarWidth: sidebarFilters.toArray().length > 1 ? 632 : 319 }}"
+    (@gridAnimation.done)="gridAnimationProgress = GridAnimationProgress.Done"
+    (@gridAnimation.start)="gridAnimationProgress = GridAnimationProgress.Start"
+  >
+    <pe-navbar
+      *ngIf="displayNavbar"
+      [items]="items$ | async"
+      [selectedItems]="selected$ | async"
+      [multipleSelectedActions]="multipleSelectedActions"
+      [sortByActions]="sortByActions"
+      [layoutType]="layoutType"
+      [hideLayoutSwitcher]="hideLayoutSwitcher"
+      [searchPlaceholder]="searchPlaceholder"
+      [itemsTitle]="itemsTitle"
+      [navbarTitle]="navbarTitle"
+      [searchString]="searchString"
+      [collectionsCount]="collectionsCount$ | async"
+      [totalCount]="totalCount"
+      [isShowCollectionsCounter]="isShowCollectionsCounter"
+      [isShowSearch]="isShowSearch"
+      [leftPaneButtons]="navbarLeftPaneButtons"
+      [isShowRightPaneButton]="isShowRightPaneButton"
+      [rightPaneButtons]="rightPaneButtons"
+      (searchChanged)="onSearchChanged($event)"
+      (layoutTypeChanged)="onLayoutTypeChanged($event)"
+      (toggleFilters)="onToggleFilters()"
+      (resetFilters)="onResetFilters()"
+      (hideFilters)="onHideFilters()"
+    >
+      <ng-content navbarSlot select="[navbarSlot]"></ng-content>
+      <ng-content leftPaneButtonsSlot select="[leftPaneButtonsSlot]"></ng-content>
+    </pe-navbar>
+    <div #dataGridBodyRef>
+      <ng-content select="[dataGridBodySlot]"></ng-content>
+    </div>
+    <ng-container>
+      <ng-container [ngSwitch]="layoutType">
+        <ng-container *ngSwitchCase="PeDataGridLayoutType.List">
+          <pe-data-grid-list-view
+            class="grid grid_list"
+            [items]="items$ | async"
+            [actions]="[singleSelectedAction, secondSingleSelectedAction]"
+            [selectable]="!!multipleSelectedActions"
+            [activeItemId]="activeItemId"
+            [enableDragAndDrop]="enableDragAndDrop"
+            [options]="dataListOptions"
+            [showFilters]="showFilters$ | async"
+            [clickable]="clickableListItem"
+            (selected)="onSelectedItemsChanged($event)"
+            (scrollEvent)="scrollEventFn($event)"
+            (itemClicked)="itemClicked.emit($event)"
+            [@gridAnimation]="{value: animation.animationState, params: { sidebarWidth: sidebarFilters.toArray().length > 1 ? 632 : 319 }}"
+            (@gridAnimation.done)="gridAnimationProgress = GridAnimationProgress.Done"
+            (@gridAnimation.start)="gridAnimationProgress = GridAnimationProgress.Start"
+          >
+            <ng-content listSlot select="[listSlot]"></ng-content>
+          </pe-data-grid-list-view>
+        </ng-container>
+        <ng-container *ngSwitchCase="PeDataGridLayoutType.Grid">
+          <pe-data-grid-view
+            class="grid"
+            [class.grid--without-navbar]="!displayNavbar"
+            [items]="items$ | async"
+            [actions]="[singleSelectedAction, secondSingleSelectedAction]"
+            [selectable]="!!multipleSelectedActions"
+            [activeItemId]="activeItemId"
+            [isShowGridItemInfo]="isShowGridItemInfo"
+            [enableDragAndDrop]="enableDragAndDrop"
+            [projectedItems]="projectedItems"
+            [theme]="theme"
+            (selected)="onSelectedItemsChanged($event)"
+            (scrollEvent)="scrollEventFn($event)"
+            (reachedPage)="onReachedPageEnd($event)"
+            [@gridAnimation]="{value: animation.animationState, params: { sidebarWidth: sidebarFilters.toArray().length > 1 ? 632 : 319 }}"
+            (@gridAnimation.done)="gridAnimationProgress = GridAnimationProgress.Done"
+            (@gridAnimation.start)="gridAnimationProgress = GridAnimationProgress.Start"
+          >
+            <ng-content gridSlot select="[gridSlot]"></ng-content>
+            <ng-content></ng-content>
+          </pe-data-grid-view>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+<pe-data-grid-paginator
+  *ngIf="paginator"
+  [config]="paginator"
+  (pageSelected)="pageSelected.next($event)"
+></pe-data-grid-paginator>

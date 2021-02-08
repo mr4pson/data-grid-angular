@@ -1,0 +1,54 @@
+<div class="item">
+  <div class="item-header">
+    <pe-data-grid-selected-mark
+      *ngIf="isSelectable"
+      class="item__checkbox checkbox"
+      [selected]="item?.selected"
+    ></pe-data-grid-selected-mark>
+    <div class="item-header__chips" *ngIf="item.labels as labels">
+      <mat-chip class="item-header__chip" *ngFor="let label of labels">
+        <span>{{ label }}</span>
+      </mat-chip>
+    </div>
+  </div>
+  <div class="item__content">
+    <ng-container *ngIf="!hasProjectedContent">
+      <div
+        *ngIf="!item?.snapshot"
+        class="item__image"
+        [style.backgroundImage]="theme === gridThemes.Light ? 'linear-gradient(to bottom, #ededf4, #aeb0b7)' : 'linear-gradient(to bottom, #474747, #000000)'"
+      >
+        <div class="item__image" [style.backgroundImage]="'url(' + item?.image + ')'"></div>
+      </div>
+      <peb-renderer
+        *ngIf="item?.snapshot as snap"
+        [element]="snap.template"
+        [stylesheet]="snap.stylesheet"
+        [context]="snap.context"
+        [options.screen]="snap.screen"
+        [options.scale]="0.2"
+        [options.locale]="'en'"
+        [options.interactions]="true"
+      ></peb-renderer>
+
+      <div *ngIf="isSelectable && isShowGridItemInfo" class="item__info">
+        <div class="item__title">{{ item?.title }}</div>
+        <div class="item__subtitle">{{ item?.subtitle }}</div>
+        <div class="item__description">{{ item?.description }}</div>
+      </div>
+    </ng-container>
+    <div [class.item__projected-content]="hasProjectedContent" #projectedContent>
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <div class="item__buttons" *ngIf="actions?.length">
+    <div
+      class="item__button"
+      *ngFor="let action of actions"
+      [class.item__button-loading]="action && (action.isLoading$ | async)"
+      (click)="onAction($event, action)">
+      <mat-spinner class="item__button-spinner mat-spinner-themed" [strokeWidth]="2" [diameter]="18"></mat-spinner>
+      <span class="item__button-content">{{ action?.label }}</span>
+    </div>
+  </div>
+</div>

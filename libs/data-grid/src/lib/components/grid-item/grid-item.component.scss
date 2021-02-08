@@ -1,0 +1,226 @@
+:host {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  flex-basis: calc(33.3% - 16px);
+  height: auto;
+  min-height: 329px;
+  max-height: 329px;
+
+  @media (max-width: 1600px) {
+    flex-basis: calc(25% - 16px);
+  }
+
+  @media (max-width: 1440px) {
+    flex-basis: calc(33.3% - 16px);
+  }
+
+  @media (max-width: 1024px) {
+    flex-basis: calc(50% - 16px);
+  }
+
+  @media (max-width: 930px) {
+    flex-basis: calc(50% - 16px);
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: calc(100% - 16px);
+  }
+
+  @media (max-width: 720px) {
+    margin: 10px 15px;
+    flex-basis: calc(50% - 16px);
+    &:nth-child(2n+1) {
+      margin-right: 0;
+    }
+    &:nth-child(2n) {
+      margin-left: 10px;
+    }
+    max-height: 235px;
+    min-height: 235px;
+    .item {
+      &__content {
+        min-height: 185px;
+      }
+      &__image {
+        height: 132px;
+      }
+      &__info {
+        padding: 5px 8px;
+      }
+      &__description {
+        padding-top: 0;
+      }
+    }
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  &:hover {
+    opacity: 0.98;
+  }
+
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    min-height: 256px;
+    peb-renderer {
+      height: 256px;
+      overflow: hidden;
+    }
+  }
+
+  &__projected-content {
+    flex: 1;
+    display: grid;
+    grid-template-rows: 100%;
+    height: 100%;
+  }
+
+  &__checkbox {
+    margin-left: 10px;
+  }
+
+  &__installed-mark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 11px;
+    padding: 6.5px 10px;
+    color: #ffffff;
+  }
+
+  &__image {
+    flex-grow: 1;
+    height: 190px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__info {
+    padding: 10px 18px;
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #ffffff;
+  }
+
+  &__subtitle,
+  &__description {
+    opacity: 0.4;
+    font-size: 11px;
+    color: #ffffff;
+  }
+
+  &__description {
+    padding-top: 5px;
+  }
+
+  &__buttons {
+    display: flex;
+    width: 100%;
+    height: 50px;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 13px 0;
+    flex-basis: auto;
+    flex-grow: 1;
+    border-right: 1px solid rgba(151, 151, 151, 0.3);
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    &-spinner {
+      display: none;
+      position: absolute;
+      left: calc(50% - 9px);
+      top: calc(50% - 9px);
+    }
+
+    &-loading {
+      .item__button-spinner {
+        display: inline-block;
+      }
+      .item__button-content {
+        opacity: 0;
+      }
+    }
+  }
+
+  &__labels {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  &__label {
+    padding: 4px 10px 4px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .item-header {
+    position: absolute;
+    margin-top: 9px !important;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    &__chips {
+      display: flex;
+      align-items: center;
+      margin-right: 9px;
+    }
+
+    &__checkbox {
+      margin-left: 9px;
+    }
+
+    &__chip {
+      margin: 0px 0px 9px 9px;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.8);
+      padding-left: 10px;
+      padding-right: 10px;
+      font-weight: 500;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      font-size: 12px;
+      text-align: center;
+      pointer-events: none;
+    }
+  }
+}

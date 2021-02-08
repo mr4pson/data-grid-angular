@@ -1,0 +1,17 @@
+{
+  "status": {
+    "installed": "Installed",
+    "not_installed": "Not Installed",
+    "done": "Done"
+  },
+  "actions": {
+    "reset": "Reset",
+    "apply": "Apply"
+  },
+  "navbar": {
+    "list": "List",
+    "grid": "Grid",
+    "selected": "selected",
+    "collections" : "in <b>{{ collectionsCount }}</b> collections"
+  }
+}

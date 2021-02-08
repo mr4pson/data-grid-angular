@@ -1,0 +1,5 @@
+<mat-paginator [pageIndex]="config.page"
+               [pageSize]="config.perPage"
+               [length]="config.total"
+               (page)="onPageSelected($event.pageIndex)">
+</mat-paginator>

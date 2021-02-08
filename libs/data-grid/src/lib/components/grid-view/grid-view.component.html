@@ -1,0 +1,36 @@
+<ng-scrollbar track="vertical">
+  <div
+    class="data-grid-items-container"
+    cdkDropList class="items-list" 
+    cdkDropListSortingDisabled 
+    [cdkDropListConnectedTo]="getMultipleDropListConnections()"
+  >
+    <!-- Pass some 'Loading' or other 'fake' item here -->
+    <ng-content select="[gridSlot]"></ng-content>
+    <ng-content></ng-content>
+    <ng-container *ngIf="projectedItems.length === 0">
+      <pe-data-grid-item
+        *ngFor="let item of items"
+        [item]="item"
+        [actions]="item.actions !== undefined ? item.actions : actions"
+        [isShowGridItemInfo]="isShowGridItemInfo"
+        [selectable]="selectable"
+        [theme]="theme"
+        (selected)="onItemSelected($event)"
+        [cdkDragData]="getSelectedItems(item)"
+        [cdkDragDisabled]="!enableDragAndDrop"
+        cdkDrag 
+      >
+        <div class="drag-custom-placeholder" *cdkDragPlaceholder></div>
+        <div class="drag-preview" *cdkDragPreview>
+          <div *ngIf="getSelectedItems(item) as dragItems">
+            <div class="drag-preview__title">
+              <pe-data-grid-image-icon></pe-data-grid-image-icon>
+              <span>{{ dragItems.length === 1 ? dragItems.length + ' item' : dragItems.length + ' items' }}</span>
+            </div>
+          </div>
+        </div>
+      </pe-data-grid-item>
+    </ng-container>
+  </div>
+</ng-scrollbar>
